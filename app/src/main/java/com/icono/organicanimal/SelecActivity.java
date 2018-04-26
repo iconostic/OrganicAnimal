@@ -145,6 +145,10 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     TextView txt_name, txt_mail;
     ImageView img_header;
 
+    String displayName;
+    String email;
+    String Photourl;
+
     public static final int RC_SIGN_IN = 9001;
 
     @Override
@@ -269,72 +273,50 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
 
             signInButton = header.findViewById(R.id.sign_in_button);
 
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestEmail()
-                    .build();
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+            if(account == null){
+                updateUI(false);
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestEmail()
+                        .build();
 
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .enableAutoManage(this,this)
-                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                    .build();
+                mGoogleApiClient = new GoogleApiClient.Builder(this)
+                        .enableAutoManage(this,this)
+                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                        .build();
 
-//            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//            if(account != null){
-//                Log.i("myerror", "accout : " + account.toString());
-//            }else{
-//                Log.i("myerror","accout : null");
-//            }
-
-            //mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-            signInButton.setSize(SignInButton.SIZE_STANDARD);
-            signInButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    signIn();
-                }
-            });
-            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch ((item.getItemId())){
-                        case R.id.sign_in_button :
-                            signIn();
-                            break;
-                        case R.id.menu_a :
-                            Toast.makeText(SelecActivity.this, "준비중", Toast.LENGTH_SHORT).show();
-                            break;
-                        case R.id.menu_b :
-                            Toast.makeText(SelecActivity.this, "준비중", Toast.LENGTH_SHORT).show();
-                            break;
+                signInButton.setSize(SignInButton.SIZE_STANDARD);
+                signInButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        signIn();
                     }
-                    return false;
-                }
-            });
+                });
+                navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch ((item.getItemId())){
+                            case R.id.sign_in_button :
+                                signIn();
+                                break;
+                            case R.id.menu_a :
+                                Toast.makeText(SelecActivity.this, "준비중", Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.id.menu_b :
+                                Toast.makeText(SelecActivity.this, "준비중", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                        return false;
+                    }
+                });
+            }else{
+                txt_name.setText(displayName);
+                txt_mail.setText(email);
+                Glide.with(this).load(Photourl).into(img_header);
+                updateUI(true);
+            }
         }
-
     }
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-//        if(opr.isDone()){
-//            Log.i("myerror","Got cached sign-in");
-//            GoogleSignInResult result = opr.get();
-//            handleSignInResult(result);
-//        }else{
-//            showProgressDialog();
-//            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-//                @Override
-//                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-//                    hideProgressDialog();
-//                    handleSignInResult(googleSignInResult);
-//                }
-//            });
-//        }
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -342,13 +324,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
 
         if(requestCode == RC_SIGN_IN){
             Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show();
-
-          //  Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-        //    handleSignInResult(task);
-
-            Log.i("myerror","data : " + data.toString());
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            Log.i("myerror","result : " + result.toString());
             handleSignInResult(result);
         }
     }
@@ -358,11 +334,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             txt_name.setText(account.getDisplayName().toString());
             txt_mail.setText(account.getEmail().toString());
             Glide.with(this).load(account.getPhotoUrl()).into(img_header);
-            // Signed in successfully, show authenticated UI.
             updateUI(true);
         } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.i("myerror", "signInResult:failed code=" + e.getStatusCode());
             updateUI(false);
         }
@@ -372,9 +345,13 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
         Log.i("myerror","handleSignInResult : " + result.isSuccess());
         if(result.isSuccess()){
             GoogleSignInAccount acct = result.getSignInAccount();
-            txt_name.setText(acct.getDisplayName().toString());
-            txt_mail.setText(acct.getEmail().toString());
-            Glide.with(this).load(acct.getPhotoUrl()).into(img_header);
+            displayName = acct.getDisplayName().toString();
+            email = acct.getEmail().toString();
+            Photourl = acct.getPhotoUrl().toString();
+
+            txt_name.setText(displayName);
+            txt_mail.setText(email);
+            Glide.with(this).load(Photourl).into(img_header);
             updateUI(true);
         }else{
             updateUI(false);
