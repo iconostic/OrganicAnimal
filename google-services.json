@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "324173155891",
+    "firebase_url": "https://api-project-324173155891.firebaseio.com",
+    "project_id": "api-project-324173155891",
+    "storage_bucket": "api-project-324173155891.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324173155891:android:be1d75ee6bc3fcc1",
+        "android_client_info": {
+          "package_name": "com.icono.organicanimal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324173155891-6j1nn152c47c3i01f2m8tmg3ehj8titc.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "324173155891-sbm79fj4g4ptsaauo7mckq4agl1vuv1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.icono.organicanimal",
+            "certificate_hash": "ed11b1f82af37a7d6e9d0e498b7b17cc14df0237"
+          }
+        },
+        {
+          "client_id": "324173155891-66umiekh04ir68b00c4t5krf1th3utbb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxN7qz0sHrNHDKay8x2piDrhW5oHwTB_g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324173155891-6j1nn152c47c3i01f2m8tmg3ehj8titc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

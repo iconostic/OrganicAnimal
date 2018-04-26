@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_a"
+        android:title="공지사항"
+        android:icon="@drawable/notice"/>
+
+    <item android:id="@+id/menu_b"
+        android:title="심플 게시판"
+        android:icon="@drawable/note"/>
+
+
+
+</menu>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="    "
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="시도"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:textStyle="bold"
+            />
+
+        <Spinner android:id="@+id/spinner"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="center">
+        </Spinner>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="시군구"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            />
+
+        <Spinner android:id="@+id/spinner2"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="center">
+        </Spinner>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="검색 시작 일자"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            />
+
+        <DatePicker
+            android:id="@+id/datepicker1"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            >
+
+        </DatePicker>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="검색 종료 일자"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            />
+
+        <DatePicker
+            android:id="@+id/datepicker2"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            >
+
+        </DatePicker>
+
+    </LinearLayout>
+
+</LinearLayout>
