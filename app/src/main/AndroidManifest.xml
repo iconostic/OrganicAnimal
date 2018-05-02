@@ -23,7 +23,9 @@
         <activity
             android:name=".FocusItem"
             android:theme="@style/NoTitleDialog" />
-        <activity android:name=".FocusShelter"></activity>
+        <activity android:name=".FocusShelter" />
+        <activity android:name=".NoticeActivity" />
+        <activity android:name=".NoteActivity"></activity>
     </application>
 
 </manifest>

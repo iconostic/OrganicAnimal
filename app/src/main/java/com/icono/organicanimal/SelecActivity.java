@@ -44,8 +44,6 @@ import java.util.ArrayList;
 
 public class SelecActivity extends AppCompatActivity implements  GoogleApiClient.OnConnectionFailedListener{
 
-    public static final String APIKey = "G949YEG0RijThW3AnQQe0PjEbK%2FNCpKbcCaR08%2F%2F5DjxChRH2um%2FE%2BS0uvsSbVSBOeDCqh0e3%2BxNX34fvtPuRg%3D%3D";
-
     String[] cidocode = {"6110000","6260000","6270000","6280000","6290000","5690000","6300000","6310000","6410000","6420000","6430000","6440000","6450000","6460000","6470000","6480000","6500000"};
     String[] cidoName = {"서울특별시","부산광역시","대구광역시","인천광역시","광주광역시","세종특별자치시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주특별자치도"};
 
@@ -98,6 +96,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     String[] JejuName = {"서귀포시","제주시","제주특별자치도"};
 
     //개 : 417000 - 고양이 : 422400 - 기타 : 429900
+
+    public static final String APIKey = "G949YEG0RijThW3AnQQe0PjEbK%2FNCpKbcCaR08%2F%2F5DjxChRH2um%2FE%2BS0uvsSbVSBOeDCqh0e3%2BxNX34fvtPuRg%3D%3D";
 
     public static Context context;
 
@@ -273,12 +273,13 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
 
             signInButton = header.findViewById(R.id.sign_in_button);
 
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
             if(account == null){
                 updateUI(false);
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestEmail()
-                        .build();
 
                 mGoogleApiClient = new GoogleApiClient.Builder(this)
                         .enableAutoManage(this,this)
@@ -310,6 +311,11 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                     }
                 });
             }else{
+                GoogleSignInAccount account1 = GoogleSignIn.getLastSignedInAccount(this);
+                displayName = account1.getDisplayName().toString();
+                email = account1.getEmail().toString();
+                Photourl = account1.getPhotoUrl().toString();
+
                 txt_name.setText(displayName);
                 txt_mail.setText(email);
                 Glide.with(this).load(Photourl).into(img_header);
@@ -382,6 +388,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
 
     public void updateUI(boolean signeIn){
         if(signeIn){
+
             signInButton.setVisibility(View.INVISIBLE);
         }else{
             signInButton.setVisibility(View.VISIBLE);
@@ -398,6 +405,61 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             }
         }
         return -1;
+    }
+
+    public String backCode(int position){
+        String[] cidocode = {"6110000","6260000","6270000","6280000","6290000","5690000","6300000","6310000","6410000","6420000","6430000","6440000","6450000","6460000","6470000","6480000","6500000"};
+        String[] cidoName = {"서울특별시","부산광역시","대구광역시","인천광역시","광주광역시","세종특별자치시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주특별자치도"};
+
+        String[] Seoulcode = {"6119999", "3220000", "3240000", "3080000", "3150000", "6119998", "3200000", "3040000", "3160000", "3170000", "3100000", "3090000", "3050000", "3190000", "3130000", "3120000", "3210000", "3030000", "3070000", "3230000", "3140000", "3180000", "3020000", "3110000", "3000000", "3010000", "3060000"};
+        String[] SeoulName = {"가정보호","강남구","강동구","강북구","강서구","개별사업","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
+
+        String[] Busancode = {"3360000", "3350000", "3400000", "3310000", "3270000", "3300000", "3290000", "3320000", "3390000", "3340000", "3260000", "3380000", "3370000", "3280000", "3250000", "3330000"};
+        String[] BusanName = {"강서구", "금정구", "기장군", "남구", "동구", "동래구", "부산진구", "북구", "사상구", "사하구", "서구", "수영구", "연제구", "영도구", "중구", "해운대구"};
+
+        String[] Deagucode = {"3440000", "3470000", "3480000", "3420000", "3450000", "3430000", "3460000", "3410000"};
+        String[] DeaguName = {"남구", "달서구", "달성군", "동구", "북구", "서구", "수성구", "중구"};
+
+        String[] IncheonCode = {"3570000, 3550000, 3510000, 3530000, 3500000, 3540000, 3560000, 3520000, 3580000, 3490000"};
+        String[] IncheonName = {"강화군, 계양구, 남구, 남동구, 동구, 부평구, 서구, 연수구, 옹진군, 중구"};
+
+        String[] GwangjuCode = {"3630000, 3610000, 3590000, 3620000, 3600000"};
+        String[] GwangjuName = {"광산구, 남구, 동구, 북구, 서구"};
+
+        String[] DeajunCode = {"3680000, 3640000, 3660000, 3670000, 3650000"};
+        String[] DeajunName = {"대덕구, 동구, 서구, 유성구, 중구"};
+
+        String[] UlsanCode = {"3700000, 3710000, 3720000, 3730000, 3690000"};
+        String[] UlsanName = {"남구, 동구, 북구, 울주군, 중구"};
+
+        String[] KyungkiCode = {"4160000, 3940000, 3970000, 3900000, 5540000, 3980000, 4020000, 4090000, 3990000, 3920000, 3860000, 3780000, 3740000, 4010000, 3930000, 4080000, 3830000, 5590000, 4170000, 5700000, 4140000, 4000000, 4050000, 5630000, 4030000, 3820000, 4070000, 4060000, 3910000, 5600000, 4040000, 5530000"};
+        String[] KyungkiName = {"가평군, 고양시, 과천시, 광명시, 광주시, 구리시, 군포시, 김포시, 남양주시, 동두천시, 부천시, 성남시, 수원시, 시흥시, 안산시, 안성시, 안양시, 양주시, 양평군, 여주시, 연천군, 오산시, 용인시, 용인시 기흥구, 의왕시, 의정부시, 이천시, 파주시, 평택시, 포천시, 하남시, 화성시"};
+
+        String[] KangwonCode = {"4200000, 4340000, 4210000, 4240000, 4230000, 4320000, 4350000, 4270000, 4190000, 4330000, 4290000, 4300000, 4180000, 4220000, 4280000, 4250000, 4310000, 4260000"};
+        String[] KangwonName = {"강릉시, 고성군, 동해시, 삼척시, 속초시, 양구군, 양양군, 영월군, 원주시, 인제군, 정선군, 철원군, 춘천시, 태백시, 평창군, 홍천군, 화천군, 횡성군"};
+
+        String[] ChungbukCode = {"4460000, 4480000, 4420000, 4440000, 4430000, 4470000, 4400000, 5570000, 4450000, 5710000, 4390000"};
+        String[] ChungbukName = {"괴산군, 단양군, 보은군, 영동군, 옥천군, 음성군, 제천시, 증평군, 진천군, 청주시, 충주시"};
+
+        String[] ChungnamCode = {"5580000, 4500000, 4550000, 4540000, 5680000, 4510000, 4570000, 4530000, 4580000, 4520000, 4560000, 4610000, 4490000, 4590000, 4620000, 4600000"};
+        String[] ChungnamName = {"계룡시, 공주시, 금산군, 논산시, 당진시, 보령시, 부여군, 서산시, 서천군, 아산시, 연기군, 예산군, 천안시, 청양군, 태안군, 홍성군"};
+
+        String[] JunbukCode = {"4780000, 4670000, 4710000, 4700000, 4740000, 4790000, 4770000, 4720000, 4680000, 4760000, 4750000, 4640000, 4690000, 4730000"};
+        String[] JunbukName = {"고창군, 군산시, 김제시, 남원시, 무주군, 부안군, 순창군, 완주군, 익산시, 임실군, 장수군, 전주시, 정읍시, 진안군"};
+
+        String[] JunnamCode = {"4920000, 4880000, 4860000, 4840000, 4870000, 4830000, 4850000, 4800000, 4950000, 4890000, 4820000, 5010000, 4810000, 4970000, 4940000, 4990000, 4980000, 4910000, 5000000, 4960000, 4930000, 4900000"};
+        String[] JunnamName = {"강진군, 고흥군, 곡성군, 광양시, 구례군, 나주시, 담양군, 목포시, 무안군, 보성군, 순천시, 신안군, 여수시, 영광군, 영암군, 완도군, 장성군, 장흥군, 진도군, 함평군, 해남군, 화순군"};
+
+        String[] KyungbukCode = {"5130000, 5050000, 5200000, 5080000, 5140000, 5060000, 5120000, 5240000, 5110000, 5210000, 5070000, 5180000, 5170000, 5090000, 5100000, 5230000, 5260000, 5250000, 5150000, 5190000, 5160000, 5220000, 5020000"};
+        String[] KyungbukName = {"경산시, 경주시, 고령군, 구미시, 군위군, 김천시, 문경시, 봉화군, 상주시, 성주군, 안동시, 영덕군, 영양군, 영주시, 영천시, 예천군, 울릉군, 울진군, 의성군, 청도군, 청송군, 칠곡군, 포항시"};
+
+        String[] KyungnamCode = {"5370000, 5470000, 5420000, 5350000, 5430000, 5360000, 5340000, 5450000, 5380000, 5390000, 5310000, 5410000, 5280000, 5670000, 5320000, 5330000, 5440000, 5400000, 5460000, 5480000"};
+        String[] KyungnamName = {"거제시, 거창군, 고성군, 김해시, 남해군, 밀양시, 사천시, 산청군, 양산시, 의령군, 진주시, 창녕군, 창원 마산합포회원구, 창원 의창성산구, 창원 진해구, 통영시, 하동군, 함안군, 함양군, 합천군"};
+
+        String[] JejuCode ={"6520000","6510000","6500000"};
+        String[] JejuName = {"서귀포시","제주시","제주특별자치도"};
+
+        return  cidocode[position];
     }
 
     String loadurl(){
@@ -417,7 +479,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
         int pos = 0;
         switch (position){
             case 0: //서울특별시
-                upr_cd = cidocode[position];
+                upr_cd = backCode(0);
                 for(String temp : SeoulName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = Seoulcode[pos];
@@ -429,7 +491,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 1: //부산광역시
-                upr_cd = cidocode[position];
+                upr_cd = backCode(1);
                 for(String temp : BusanName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = Busancode[pos];
@@ -441,7 +503,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 2: //대구광역시
-                upr_cd = cidocode[position];
+                upr_cd = backCode(2);
                 for(String temp : DeaguName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = Deagucode[pos];
@@ -453,7 +515,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 3: //인천광역시
-                upr_cd = cidocode[position];
+                upr_cd = backCode(3);
                 for(String temp : IncheonName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = IncheonCode[pos];
@@ -465,7 +527,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 4: //광주광역시
-                upr_cd = cidocode[position];
+                upr_cd = backCode(4);
                 for(String temp : GwangjuName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = GwangjuCode[pos];
@@ -477,11 +539,11 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 5: //세종특별자치시
-                upr_cd = cidocode[position];
+                upr_cd = backCode(5);
                 org_cd  = "";
                 break;
             case 6: //대전광역시
-                upr_cd = cidocode[position];
+                upr_cd = backCode(6);
                 for(String temp : DeajunName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = DeajunCode[pos];
@@ -492,7 +554,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                     }
                 }
             case 7: //울산광역시
-                upr_cd = cidocode[position];
+                upr_cd = backCode(7);
                 for(String temp : UlsanName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = UlsanCode[pos];
@@ -504,7 +566,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 8: //경기도
-                upr_cd = cidocode[position];
+                upr_cd = backCode(8);
                 for(String temp : KyungkiName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = KyungkiCode[pos];
@@ -516,7 +578,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 9: //강원도
-                upr_cd = cidocode[position];
+                upr_cd = backCode(9);
                 for(String temp : KangwonName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = KangwonCode[pos];
@@ -528,7 +590,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 11: //충청북도
-                upr_cd = cidocode[position];
+                upr_cd = backCode(11);
                 for(String temp : ChungbukName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = ChungbukCode[pos];
@@ -540,7 +602,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 12: //충청남도
-                upr_cd = cidocode[position];
+                upr_cd = backCode(12);
                 for(String temp : ChungnamName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = ChungnamCode[pos];
@@ -552,7 +614,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 13: //전라북도
-                upr_cd = cidocode[position];
+                upr_cd = backCode(13);
                 for(String temp : JunbukName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = JunbukCode[pos];
@@ -564,7 +626,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 14: //전라남도
-                upr_cd = cidocode[position];
+                upr_cd = backCode(14);
                 for(String temp : JunnamName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = JunnamCode[pos];
@@ -576,7 +638,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 15: //경상북도
-                upr_cd = cidocode[position];
+                upr_cd = backCode(15);
                 for(String temp : KyungbukName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = KyungbukCode[pos];
@@ -588,7 +650,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 16: //경상남도
-                upr_cd = cidocode[position];
+                upr_cd = backCode(16);
                 for(String temp : KyungnamName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = KyungnamCode[pos];
@@ -600,7 +662,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
                 break;
             case 17: //제주특별자치도
-                upr_cd = cidocode[position];
+                upr_cd = backCode(17);
                 for(String temp : JejuName){
                     if(gungu.equalsIgnoreCase(temp)){
                         org_cd  = JejuCode[pos];
