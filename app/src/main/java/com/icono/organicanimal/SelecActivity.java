@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -109,6 +112,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     NavigationView navigationView;
     ActionBarDrawerToggle drawerToggle;
 
+    Toolbar toolbar;
+
     String kind = "";
     String sido = "";
     String gungu = "";
@@ -120,7 +125,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     int month2 = 0;
     int day2 = 0;
 
-    Toolbar toolbar;
+
 
     String upkind = "";
 
@@ -138,6 +143,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
 
     ProgressWheel wheel;
     RelativeLayout layout;
+
+    Button signoutButton;
 
     SignInButton signInButton;
     GoogleSignInClient mGoogleSignInClient;
@@ -160,6 +167,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
 
         wheel = findViewById(R.id.progress_wheel);
         layout = findViewById(R.id.wheel_layout);
+        layout.setVisibility(View.VISIBLE);
         wheel.spin();
 
         toolbar = findViewById(R.id.toolbar);
@@ -272,55 +280,74 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             img_header = header.findViewById(R.id.img_header);
 
             signInButton = header.findViewById(R.id.sign_in_button);
+            signoutButton = header.findViewById(R.id.sign_out_button);
 
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
                     .build();
 
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this,this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
             if(account == null){
-                updateUI(false);
-
-                mGoogleApiClient = new GoogleApiClient.Builder(this)
-                        .enableAutoManage(this,this)
-                        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                        .build();
+                //updateUI(false);
+                signInButton.setVisibility(View.VISIBLE);
+                signoutButton.setVisibility(View.INVISIBLE);
 
                 signInButton.setSize(SignInButton.SIZE_STANDARD);
-                signInButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        signIn();
-                    }
-                });
-                navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch ((item.getItemId())){
-                            case R.id.sign_in_button :
-                                signIn();
-                                break;
-                            case R.id.menu_a :
-                                Toast.makeText(SelecActivity.this, "준비중", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.menu_b :
-                                Toast.makeText(SelecActivity.this, "준비중", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                        return false;
-                    }
-                });
             }else{
-                GoogleSignInAccount account1 = GoogleSignIn.getLastSignedInAccount(this);
-                displayName = account1.getDisplayName().toString();
-                email = account1.getEmail().toString();
-                Photourl = account1.getPhotoUrl().toString();
+                //GoogleSignInAccount account1 = GoogleSignIn.getLastSignedInAccount(this);
+                displayName = account.getDisplayName().toString();
+                email = account.getEmail().toString();
+                Photourl = account.getPhotoUrl().toString();
 
                 txt_name.setText(displayName);
                 txt_mail.setText(email);
                 Glide.with(this).load(Photourl).into(img_header);
-                updateUI(true);
+               // updateUI(true);
+                signoutButton.setVisibility(View.VISIBLE);
+                signInButton.setVisibility(View.INVISIBLE);
             }
+
+            signInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    signIn();
+                }
+            });
+
+            signoutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    signout();
+                }
+            });
+
+            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch ((item.getItemId())){
+//                        case R.id.sign_in_button :
+//                            signIn();
+//                            break;
+//                        case R.id.sign_out_button :
+//                            Toast.makeText(SelecActivity.this, "signout", Toast.LENGTH_SHORT).show();
+//                            signout();
+                        case R.id.menu_a :
+                            Intent intent1 = new Intent(SelecActivity.context, NoticeActivity.class);
+                            startActivity(intent1);
+                            break;
+                        case R.id.menu_b :
+                            Intent intent2 = new Intent(SelecActivity.context, NoteActivity.class);
+                            startActivity(intent2);
+                            break;
+                    }
+                    return false;
+                }
+            });
         }
     }
 
@@ -329,7 +356,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == RC_SIGN_IN){
-            Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Log in", Toast.LENGTH_SHORT).show();
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
@@ -358,9 +385,11 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             txt_name.setText(displayName);
             txt_mail.setText(email);
             Glide.with(this).load(Photourl).into(img_header);
-            updateUI(true);
+            signInButton.setVisibility(View.INVISIBLE);
+            signoutButton.setVisibility(View.VISIBLE);
+           // updateUI(true);
         }else{
-            updateUI(false);
+           // updateUI(false);
             Log.i("myerror","fail : " + result.getStatus());
         }
     }
@@ -369,6 +398,20 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
        // Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    public void signout(){
+        if(mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.clearDefaultAccountAndReconnect();
+            mGoogleApiClient.disconnect();
+            Toast.makeText(context, "Log out", Toast.LENGTH_SHORT).show();
+
+            txt_name.setText("Guest");
+            txt_mail.setText("Guest@gmail.com");
+            Glide.with(context).load(R.drawable.user).into(img_header);
+            signInButton.setVisibility(View.VISIBLE);
+            signoutButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -389,9 +432,9 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     public void updateUI(boolean signeIn){
         if(signeIn){
 
-            signInButton.setVisibility(View.INVISIBLE);
+          //  signInButton.setVisibility(View.INVISIBLE);
         }else{
-            signInButton.setVisibility(View.VISIBLE);
+         //   signInButton.setVisibility(View.VISIBLE);
         }
     }
 

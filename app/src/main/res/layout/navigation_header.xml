@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorMint"
     >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorMint"
+        >
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/img_header"
@@ -24,7 +32,9 @@
         android:textSize="20sp"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:layout_marginLeft="8dp"/>
+        android:layout_marginLeft="8dp"
+        android:layout_below="@id/img_header"
+        />
 
     <TextView
         android:id="@+id/txt_mail"
@@ -33,12 +43,23 @@
         android:text="guest@gmail.com"
         android:textColor="#e7f3fa"
         android:layout_marginLeft="8dp"
+        android:layout_below="@id/txt_name"
         />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/txt_mail"
         />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/sign_out_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/signout"
+        android:layout_below="@id/txt_mail"
+        android:visibility="invisible"
+        />
+
+</RelativeLayout>

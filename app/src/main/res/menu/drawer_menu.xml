@@ -6,9 +6,8 @@
         android:icon="@drawable/notice"/>
 
     <item android:id="@+id/menu_b"
-        android:title="심플 게시판"
+        android:title="게시판"
         android:icon="@drawable/note"/>
-
 
 
 </menu>
