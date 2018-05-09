@@ -19,11 +19,13 @@ public class a_FragmentPage3 extends Fragment{
     RecyclerView recycler;
 
     ArrayList<ArrayList<a_Fragment3_Item>> items4 = new ArrayList<>();
+    ArrayList<ArrayList<a_Fragment3_Item2>> items5 = new ArrayList<>();
     
     FloatingActionButton fab;
 
-    public void setItems(ArrayList<ArrayList<a_Fragment3_Item>> items4){
+    public void setItems(ArrayList<ArrayList<a_Fragment3_Item>> items4, ArrayList<ArrayList<a_Fragment3_Item2>> items5){
         this.items4 = items4;
+        this.items5 = items5;
     }
 
     @Override
@@ -37,13 +39,17 @@ public class a_FragmentPage3 extends Fragment{
         View view = inflater.inflate(R.layout.a__fragment_page1, container, false);
 
         recycler = view.findViewById(R.id.recycler);
-        adapter = new a_Adapter_recyclefragment3(view.getContext(), items4);
+        adapter = new a_Adapter_recyclefragment3(view.getContext(), items4, items5);
         recycler.setAdapter(adapter);
 
         recycler.setLayoutManager(new GridLayoutManager(view.getContext(),2));
         if(items4 != null){
             adapter.notifyDataSetChanged();
         }
+        if(items5 != null){
+            adapter.notifyDataSetChanged();
+        }
+
         fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

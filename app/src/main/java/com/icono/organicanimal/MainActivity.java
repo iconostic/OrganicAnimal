@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         DatePicker date1 = view.findViewById(R.id.datepicker1);
         DatePicker date2 = view.findViewById(R.id.datepicker2);
 
-        date1.init(digyear, digmonth, digday, listener);
+        date1.init(digyear, digmonth, digday-2, listener);
         date2.init(digyear, digmonth, digday-1, listener2);
 
         spinner = view.findViewById(R.id.spinner);

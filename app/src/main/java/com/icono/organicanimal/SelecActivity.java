@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -42,7 +43,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class SelecActivity extends AppCompatActivity implements  GoogleApiClient.OnConnectionFailedListener{
@@ -103,6 +106,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     public static final String APIKey = "G949YEG0RijThW3AnQQe0PjEbK%2FNCpKbcCaR08%2F%2F5DjxChRH2um%2FE%2BS0uvsSbVSBOeDCqh0e3%2BxNX34fvtPuRg%3D%3D";
 
     public static Context context;
+    public static SelecActivity sa;
 
     TabLayout tabs;
     ViewPager pager;
@@ -132,10 +136,12 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     ArrayList<a_Fragment1_Item> items;
     ArrayList<a_Fragment1_Item> items2;
     ArrayList<a_Fragment3_Item> items3;
+    ArrayList<a_Fragment3_Item2> items8;
 
     ArrayList<ArrayList<a_Fragment1_Item>> items4 = new ArrayList<>();
     ArrayList<ArrayList<a_Fragment1_Item>> items5 = new ArrayList<>();
     ArrayList<ArrayList<a_Fragment3_Item>> items6 = new ArrayList<>();
+    ArrayList<ArrayList<a_Fragment3_Item2>> items9 = new ArrayList<>();
 
     boolean isFragment = false;
     boolean isFragment2 = false;
@@ -152,27 +158,41 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     TextView txt_name, txt_mail;
     ImageView img_header;
 
+    TextView footer;
+
     String displayName;
     String email;
     String Photourl;
 
     public static final int RC_SIGN_IN = 9001;
 
+    boolean isProgress = false;
+    boolean isLogin = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selec);
         context = this;
+        sa = this;
         Intent intent = getIntent();
 
-        wheel = findViewById(R.id.progress_wheel);
-        layout = findViewById(R.id.wheel_layout);
-        layout.setVisibility(View.VISIBLE);
-        wheel.spin();
+        Intent progress = new Intent(this, ProgressActivity.class);
+        startActivity(progress);
+        ProgressActivity.workProgress();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         txt_toolbar = findViewById(R.id.toolbar_txt);
+
+        footer = findViewById(R.id.footer);
+
+        footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         if(intent != null) {
             kind = intent.getStringExtra("kind");
@@ -225,23 +245,37 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
         });
         thread3.start();
 
+        final String needUrl4 = loadurl4();
+        Thread thread4 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    onXml4(needUrl4);
+                }catch (Exception e){
+                    Log.i("myerror","thread4 fail");
+                }
+            }
+        });
+        thread4.start();
+
         try {
             thread.join();
             thread2.join();
             thread3.join();
+            thread4.join();
         } catch (InterruptedException e) {
             Log.i("myerror","thread fail");
         }
 
         if(isFragment && isFragment2 && isFragment3){
+            ProgressActivity.stopProgress();
+
             if (kind.equals("dog")) {
-                txt_toolbar.setText("개");
+                txt_toolbar.setText("유기동물검색기_개");
             } else if (kind.equals("cat")) {
-                txt_toolbar.setText("고양이");
+                txt_toolbar.setText("유기동물검색기_고양이");
             }
 
-            layout.setVisibility(View.GONE);
-            wheel.stopSpinning();
 
             drawerLayout = findViewById(R.id.layout_drawer);
             navigationView = findViewById(R.id.navi);
@@ -262,7 +296,9 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
 
             fragment1.setItems(items5);
             fragment2.setItems(items4);
-            fragment3.setItems(items6);
+            fragment3.setItems(items6, items9);
+           // Log.i("myerror","items9 : " + items9.toString());
+            FocusShelter.setJuso(sido, gungu);
 
             adapter.addFragment(fragment1, sido);
             adapter.addFragment(fragment2, gungu);
@@ -293,12 +329,14 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
 
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
             if(account == null){
+                isLogin = false;
                 //updateUI(false);
                 signInButton.setVisibility(View.VISIBLE);
                 signoutButton.setVisibility(View.INVISIBLE);
 
                 signInButton.setSize(SignInButton.SIZE_STANDARD);
             }else{
+                isLogin = true;
                 //GoogleSignInAccount account1 = GoogleSignIn.getLastSignedInAccount(this);
                 displayName = account.getDisplayName().toString();
                 email = account.getEmail().toString();
@@ -341,8 +379,18 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                             startActivity(intent1);
                             break;
                         case R.id.menu_b :
-                            Intent intent2 = new Intent(SelecActivity.context, NoteActivity.class);
-                            startActivity(intent2);
+                            if(isLogin){
+                                Intent intent2 = new Intent(SelecActivity.context, NoteActivity.class);
+                                startActivity(intent2);
+                            }else{
+                                Snackbar.make(getWindow().getDecorView().getRootView(), "로그인이 필요한 서비스 입니다.", Snackbar.LENGTH_LONG)
+                                        .setAction("OK", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                            }
+                                        }).show();
+                            }
+
                             break;
                     }
                     return false;
@@ -350,6 +398,14 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             });
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -377,6 +433,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     public void handleSignInResult(GoogleSignInResult result){
         Log.i("myerror","handleSignInResult : " + result.isSuccess());
         if(result.isSuccess()){
+            isLogin = true;
             GoogleSignInAccount acct = result.getSignInAccount();
             displayName = acct.getDisplayName().toString();
             email = acct.getEmail().toString();
@@ -390,6 +447,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
            // updateUI(true);
         }else{
            // updateUI(false);
+            isLogin = false;
             Log.i("myerror","fail : " + result.getStatus());
         }
     }
@@ -411,6 +469,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             Glide.with(context).load(R.drawable.user).into(img_header);
             signInButton.setVisibility(View.VISIBLE);
             signoutButton.setVisibility(View.INVISIBLE);
+
+            isLogin = false;
         }
     }
 
@@ -725,6 +785,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 "org_cd="+org_cd+"&" +
                 "pageNo=1&numOfRows=100&" +
                 "ServiceKey="+APIKey;
+
+        Log.i("myerror","url1 : " + url);
         return url;
     }
 
@@ -947,6 +1009,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 "upr_cd="+upr_cd+"&" +
                 "pageNo=1&numOfRows=50&" +
                 "ServiceKey="+APIKey;
+
+        Log.i("myerror","url2 : " + url);
         return url;
     }
 
@@ -1166,8 +1230,32 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 "upr_cd="+ upr_cd +
                 "&org_cd="+ org_cd +
                 "&ServiceKey="+APIKey;
+        Log.i("myerror","url3 : " + url);
         return url;
     }
+
+    String loadurl4(){
+        String url = "http://openapi.animal.go.kr/openapi/service/rest/recordAgencySrvc/recordAgency?"+
+                "addr="+ encodeURIComponent(sido)+ "%20" +encodeURIComponent(gungu)+
+                "&pageNo=1&numOfRows=50" +
+                "&ServiceKey="+APIKey;
+
+        Log.i("myerror","url1 : " + url);
+
+        return url;
+    }
+
+    public static String encodeURIComponent(String component)   {
+        String result = null;
+        try {
+            result = URLEncoder.encode(component, "UTF-8");
+        }catch (UnsupportedEncodingException e) {
+            result = component;
+        }
+
+        return result;
+    }
+
 
 
     synchronized public void onXml(String needUrl){
@@ -1515,6 +1603,71 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                             items6.add(items3);
                             item = null;
                             items3 = null;
+                        }
+                        break;
+                    case XmlPullParser.END_DOCUMENT:
+                        break;
+                }
+                eventType = xpp.next();
+            }
+        }catch (Exception e){
+            Log.i("myerror","in xml2 " + e.getMessage());
+        }
+    }
+
+    synchronized public void onXml4(String needUrl){
+        try{
+            URL url = new URL(needUrl);
+            InputStream is = url.openStream();
+
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            XmlPullParser xpp = factory.newPullParser();
+
+            xpp.setInput(is, "utf-8");
+            int eventType = xpp.next();
+            a_Fragment3_Item2 item = null;
+            String tagName = "";
+
+            while(eventType != XmlPullParser.END_DOCUMENT){
+                switch (eventType){
+                    case XmlPullParser.START_DOCUMENT :
+                        break;
+                    case XmlPullParser.START_TAG :
+                        tagName = xpp.getName();
+                        if(tagName.equals("item")) {
+                            item = new a_Fragment3_Item2();
+                            items8 = new ArrayList<>();
+                        }else if(tagName.equals("addr")){
+                            xpp.next();
+                            item.setAddr(xpp.getText());
+                        }else if(tagName.equals("htel")){
+                            xpp.next();
+                            item.setHtel(xpp.getText());
+                        }else if(tagName.equals("memberNm")){
+                            xpp.next();
+                            item.setMemberNm(xpp.getText());
+                        }else if(tagName.equals("orgNm")){
+                            xpp.next();
+                            item.setOrgNm(xpp.getText());
+                        }else if(tagName.equals("tel")){
+                            xpp.next();
+                            item.setTel(xpp.getText());
+                        }
+                        break;
+                    case XmlPullParser.TEXT:
+                        break;
+                    case XmlPullParser.END_TAG:
+                        tagName = xpp.getName();
+                        if(tagName.equals("items")){
+                            //  Log.i("myerror","in end tag with body");
+                            //  Log.i("myerror","in end tag with body items4 : "+items4.size());
+                            return;
+                        }
+                        if(tagName.equals("item")){
+                            items8.add(item);
+                            items9.add(items8);
+                            item = null;
+                            items8 = null;
                         }
                         break;
                     case XmlPullParser.END_DOCUMENT:
