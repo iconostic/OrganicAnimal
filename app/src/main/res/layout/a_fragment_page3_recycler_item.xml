@@ -24,7 +24,7 @@
             android:shadowColor="#000000"
             android:text="한국동물구조관리협회"
             android:textSize="16sp"
-            android:textColor="#0000ff"
+            android:textColor="@color/colorWhite"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
 

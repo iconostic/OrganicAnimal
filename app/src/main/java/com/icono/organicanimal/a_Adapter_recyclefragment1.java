@@ -75,14 +75,14 @@ public class a_Adapter_recyclefragment1 extends RecyclerView.Adapter {
             final a_Fragment1_Item item = items2.get(position);
             Glide.with(context).load(item.getFilename()).into(vh.img_result);
             vh.txt_result.setText("");
-            vh.txt_result.append(item.getAge()+"\n");
-            vh.txt_result.append(item.getColorCd()+"\n");
-            vh.txt_result.append(item.getKindCd()+"\n");
+            vh.txt_result.append("ｏ " + item.getAge()+"\n");
+            vh.txt_result.append("ｏ " + item.getColorCd()+"\n");
+            vh.txt_result.append("ｏ " + item.getKindCd()+"\n");
             if(item.getSexCd() != null){
                 if(item.getSexCd().equals("M")){
-                    vh.txt_result.append("수컷\n");
+                    vh.txt_result.append("ｏ " + "수컷\n");
                 }else{
-                    vh.txt_result.append("암컷\n");
+                    vh.txt_result.append("ｏ " + "암컷\n");
                 }
             }
             vh.itemView.setOnClickListener(new View.OnClickListener() {
