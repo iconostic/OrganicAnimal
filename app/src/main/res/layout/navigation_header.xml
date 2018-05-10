@@ -20,8 +20,6 @@
         android:layout_height="80dp"
         android:layout_margin="8dp"
         android:src="@drawable/user"
-        android:clickable="true"
-        android:onClick="clickHeader"
         />
 
     <TextView

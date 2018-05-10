@@ -86,7 +86,7 @@
                                     android:id="@+id/txt_noticeNo"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="서울-서초-2018-00033"
+                                    android:text=""
                                     android:textSize="20sp"
                                     android:textColor="#000000"
                                     />
@@ -115,7 +115,7 @@
                                     android:id="@+id/txt_happenDt"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="2018.03.17"
+                                    android:text=""
                                     android:textSize="20sp"
                                     android:textColor="#000000"
                                     />
@@ -151,7 +151,7 @@
                         android:id="@+id/txt_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2016(년생)"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />
@@ -180,7 +180,7 @@
                         android:id="@+id/txt_kindCd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="[개]푸들"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />
@@ -209,7 +209,7 @@
                         android:id="@+id/txt_weight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3(Kg)"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />
@@ -238,7 +238,7 @@
                         android:id="@+id/txt_colorCd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="검/흰"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />
@@ -267,7 +267,7 @@
                         android:id="@+id/txt_sexCd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="M"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />
@@ -296,7 +296,7 @@
                         android:id="@+id/txt_precessState"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="비교적건강"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />
@@ -325,7 +325,7 @@
                         android:id="@+id/txt_specialMark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="눈에띄는 외상은 없음"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />
@@ -354,7 +354,7 @@
                         android:id="@+id/txt_happenPlace"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="강동구 고덕 1동 뒷길 벧엘빌라 인근"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />
@@ -383,7 +383,7 @@
                         android:id="@+id/txt_noticeSdt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20180101"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />
@@ -412,7 +412,7 @@
                         android:id="@+id/txt_noticeEdt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20180101"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />
@@ -441,7 +441,7 @@
                         android:id="@+id/txt_careNm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="한국동물구조협회"
+                        android:text=""
                         android:textSize="20sp"
                         android:textColor="#000000"
                         />

@@ -2,10 +2,14 @@ package com.icono.organicanimal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,17 +68,15 @@ public class a_Adapter_recyclefragment1 extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
+
         final VH vh = (VH)holder;
         if(items2 != null){
             final a_Fragment1_Item item = items2.get(position);
+            Glide.with(context).load(item.getFilename()).into(vh.img_result);
             vh.txt_result.setText("");
             vh.txt_result.append(item.getAge()+"\n");
-            vh.txt_result.append(item.getCareNm()+"\n");
-            vh.txt_result.append(item.getCareAddr()+"\n");
             vh.txt_result.append(item.getColorCd()+"\n");
-            Glide.with(context).load(item.getFilename()).into(vh.img_result);
-            vh.txt_result.append(item.getHappenDt()+"\n");
-            vh.txt_result.append(item.getHappenPlace()+"\n");
             vh.txt_result.append(item.getKindCd()+"\n");
             if(item.getSexCd() != null){
                 if(item.getSexCd().equals("M")){
@@ -83,7 +85,6 @@ public class a_Adapter_recyclefragment1 extends RecyclerView.Adapter {
                     vh.txt_result.append("암컷\n");
                 }
             }
-
             vh.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -2,10 +2,12 @@ package com.icono.organicanimal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +17,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -173,6 +177,14 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selec);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorMint));
+        }
+
         context = this;
         sa = this;
         Intent intent = getIntent();
@@ -214,6 +226,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                     onXml(needUrl);
                 }catch (Exception e){
                     Log.i("myerror","thread fail");
+                    Toast.makeText(SelecActivity.this, "Thread Fail", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -227,6 +240,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                     onXml2(needUrl2);
                 }catch (Exception e){
                     Log.i("myerror","thread2 fail");
+                    Toast.makeText(SelecActivity.this, "Thread2 Fail", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -240,6 +254,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                     onXml3(needUrl3);
                 }catch (Exception e){
                     Log.i("myerror","thread3 fail");
+                    Toast.makeText(SelecActivity.this, "Thread3 Fail", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -253,6 +268,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                     onXml4(needUrl4);
                 }catch (Exception e){
                     Log.i("myerror","thread4 fail");
+                    Toast.makeText(SelecActivity.this, "Thread4 Fail", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -265,6 +281,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             thread4.join();
         } catch (InterruptedException e) {
             Log.i("myerror","thread fail");
+            Toast.makeText(SelecActivity.this, "Thread all Fail", Toast.LENGTH_SHORT).show();
         }
 
         if(isFragment && isFragment2 && isFragment3){
@@ -383,7 +400,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                                 Intent intent2 = new Intent(SelecActivity.context, NoteActivity.class);
                                 startActivity(intent2);
                             }else{
-                                Snackbar.make(getWindow().getDecorView().getRootView(), "로그인이 필요한 서비스 입니다.", Snackbar.LENGTH_LONG)
+                                Snackbar.make(getWindow().getDecorView().getRootView(), "로그인이 필요한 서비스 입니다.", Snackbar.LENGTH_INDEFINITE)
                                         .setAction("OK", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -426,6 +443,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             updateUI(true);
         } catch (ApiException e) {
             Log.i("myerror", "signInResult:failed code=" + e.getStatusCode());
+            Toast.makeText(SelecActivity.this, "signInResult:failed code=" + e.getStatusCode(), Toast.LENGTH_SHORT).show();
             updateUI(false);
         }
     }
@@ -449,6 +467,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
            // updateUI(false);
             isLogin = false;
             Log.i("myerror","fail : " + result.getStatus());
+            Toast.makeText(SelecActivity.this, "fail : " + result.getStatus(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -477,6 +496,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.i("myerror","onConnectionFailed : " + connectionResult);
+        Toast.makeText(SelecActivity.this, "onConnectionFailed : " + connectionResult, Toast.LENGTH_SHORT).show();
     }
 
     public void showProgressDialog(){
@@ -1410,6 +1430,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             }
         }catch (Exception e){
             Log.i("myerror","in xml " + e.getMessage());
+            Toast.makeText(context, "xml - " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1556,6 +1577,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             }
         }catch (Exception e){
             Log.i("myerror","in xml2 " + e.getMessage());
+            Toast.makeText(context, "xml2 - " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1612,6 +1634,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             }
         }catch (Exception e){
             Log.i("myerror","in xml2 " + e.getMessage());
+            Toast.makeText(context, "xml3 - " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1677,6 +1700,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             }
         }catch (Exception e){
             Log.i("myerror","in xml2 " + e.getMessage());
+            Toast.makeText(context, "xml4 - " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorMint">#72d5c0</color>
+    <color name="colorMintReverce">#d57287</color>
+    <color name="colorDarkMint">#48766c</color>
     <color name="colorWhite">#ffffff</color>
 </resources>

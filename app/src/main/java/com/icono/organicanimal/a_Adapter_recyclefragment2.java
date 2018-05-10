@@ -42,7 +42,7 @@ public class a_Adapter_recyclefragment2 extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.a_fragment_page1_recycler_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.a_fragment_page2_recycler_item, parent, false);
         a_Adapter_recyclefragment2.VH vh = new a_Adapter_recyclefragment2.VH(view);
         Age = "";
         CareNm = "";
@@ -64,17 +64,15 @@ public class a_Adapter_recyclefragment2 extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
+
         final VH vh = (VH)holder;
         if(items2 != null){
             final a_Fragment1_Item item = items2.get(position);
+            Glide.with(context).load(item.getFilename()).into(vh.img_result);
             vh.txt_result.setText("");
             vh.txt_result.append(item.getAge()+"\n");
-            vh.txt_result.append(item.getCareNm()+"\n");
-            vh.txt_result.append(item.getCareAddr()+"\n");
             vh.txt_result.append(item.getColorCd()+"\n");
-            Glide.with(context).load(item.getPopfile()).into(vh.img_result);
-            vh.txt_result.append(item.getHappenDt()+"\n");
-            vh.txt_result.append(item.getHappenPlace()+"\n");
             vh.txt_result.append(item.getKindCd()+"\n");
             if(item.getSexCd() != null){
                 if(item.getSexCd().equals("M")){
@@ -83,7 +81,6 @@ public class a_Adapter_recyclefragment2 extends RecyclerView.Adapter {
                     vh.txt_result.append("암컷\n");
                 }
             }
-
             vh.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

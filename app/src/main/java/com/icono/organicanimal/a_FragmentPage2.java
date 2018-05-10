@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,8 @@ public class a_FragmentPage2 extends Fragment{
         adapter = new a_Adapter_recyclefragment2(view.getContext(), items4);
         recycler.setAdapter(adapter);
 
-        recycler.setLayoutManager(new GridLayoutManager(view.getContext(),2));
+        //recycler.setLayoutManager(new GridLayoutManager(view.getContext(),2));
+        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
         if(items4 != null){
             adapter.notifyDataSetChanged();
         }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -79,6 +80,7 @@ public class a_Adapter_recyclefragment3 extends RecyclerView.Adapter {
                     onXml4(needUrl4);
                 }catch (Exception e){
                     Log.i("myerror","thread fail");
+                    Toast.makeText(context, "recyclefrag3 - " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -88,6 +90,7 @@ public class a_Adapter_recyclefragment3 extends RecyclerView.Adapter {
             thread.join();
         }catch (Exception e){
             Log.i("myerror","thread join fail");
+            Toast.makeText(context, "recyclefrag3 - " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         for(ArrayList<a_Fragment3_Item2> t : items9){
@@ -126,7 +129,6 @@ public class a_Adapter_recyclefragment3 extends RecyclerView.Adapter {
                             }
                             OrgNm = "";
                         }
-                        Log.i("myerror", "items6.size : " + items6.size() + "pos : " + pos);
                         intoFocus(pos, false);
                     }else{
                         int pos = 0;
@@ -139,7 +141,6 @@ public class a_Adapter_recyclefragment3 extends RecyclerView.Adapter {
                             }
                             OrgNm = "";
                         }
-                        Log.i("myerror", "items6.size : " + items3.size() + "pos : " + pos);
                         intoFocus(pos, true);
                     }
                 }
@@ -236,6 +237,7 @@ public class a_Adapter_recyclefragment3 extends RecyclerView.Adapter {
             }
         }catch (Exception e){
             Log.i("myerror","in xml2 " + e.getMessage());
+            Toast.makeText(context, "recyclefrag3 - " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
