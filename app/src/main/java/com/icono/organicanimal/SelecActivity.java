@@ -21,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -173,25 +174,32 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     boolean isProgress = false;
     boolean isLogin = false;
 
+
+    RelativeLayout progressbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selec);
 
+        final a_Adapter_fragment adapter = new a_Adapter_fragment(getSupportFragmentManager());
+
+        progressbar = findViewById(R.id.progressbar);
+       // progressbar.setVisibility(View.VISIBLE);
+        progressbar.setVisibility(View.GONE);
+
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorMint));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorDarkMint));
         }
 
         context = this;
         sa = this;
         Intent intent = getIntent();
 
-        Intent progress = new Intent(this, ProgressActivity.class);
-        startActivity(progress);
-        ProgressActivity.workProgress();
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -224,6 +232,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             public void run() {
                 try{
                     onXml(needUrl);
+              //      adapter.notifyDataSetChanged();
                 }catch (Exception e){
                     Log.i("myerror","thread fail");
                     Toast.makeText(SelecActivity.this, "Thread Fail", Toast.LENGTH_SHORT).show();
@@ -238,6 +247,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             public void run() {
                 try{
                     onXml2(needUrl2);
+             //       adapter.notifyDataSetChanged();
                 }catch (Exception e){
                     Log.i("myerror","thread2 fail");
                     Toast.makeText(SelecActivity.this, "Thread2 Fail", Toast.LENGTH_SHORT).show();
@@ -252,6 +262,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             public void run() {
                 try{
                     onXml3(needUrl3);
+          //          adapter.notifyDataSetChanged();
                 }catch (Exception e){
                     Log.i("myerror","thread3 fail");
                     Toast.makeText(SelecActivity.this, "Thread3 Fail", Toast.LENGTH_SHORT).show();
@@ -266,6 +277,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             public void run() {
                 try{
                     onXml4(needUrl4);
+                //    adapter.notifyDataSetChanged();
                 }catch (Exception e){
                     Log.i("myerror","thread4 fail");
                     Toast.makeText(SelecActivity.this, "Thread4 Fail", Toast.LENGTH_SHORT).show();
@@ -283,10 +295,12 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             Log.i("myerror","thread fail");
             Toast.makeText(SelecActivity.this, "Thread all Fail", Toast.LENGTH_SHORT).show();
         }
-
+      // adapter.notifyDataSetChanged();
         if(isFragment && isFragment2 && isFragment3){
-            ProgressActivity.stopProgress();
-
+            //Toast.makeText(context, "in if", Toast.LENGTH_SHORT).show();
+            //adapter.notifyDataSetChanged();
+            //progressbar.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
             if (kind.equals("dog")) {
                 txt_toolbar.setText("유기동물검색기_개");
             } else if (kind.equals("cat")) {
@@ -305,7 +319,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             drawerToggle.syncState();
 
             ViewPager viewPager = findViewById(R.id.viewpager);
-            a_Adapter_fragment adapter = new a_Adapter_fragment(getSupportFragmentManager());
+           //
 
             a_FragmentPage1 fragment1 = new a_FragmentPage1();
             a_FragmentPage2 fragment2 = new a_FragmentPage2();
