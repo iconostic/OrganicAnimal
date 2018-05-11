@@ -262,6 +262,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             public void run() {
                 try{
                     onXml3(needUrl3);
+
           //          adapter.notifyDataSetChanged();
                 }catch (Exception e){
                     Log.i("myerror","thread3 fail");
@@ -433,7 +434,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
+       // finish();
     }
 
 

@@ -7,12 +7,12 @@
     app:contentPadding="4dp"
     app:contentPaddingBottom="4dp"
     android:layout_margin="4dp"
-    android:background="@color/colorMint"
+    android:background="@color/colorWhite"
     >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorMint"
+        android:background="@color/colorWhite"
         android:orientation="vertical"
         android:padding="8dp"
         android:gravity="center"
@@ -24,7 +24,7 @@
             android:shadowColor="#000000"
             android:text="한국동물구조관리협회"
             android:textSize="16sp"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorBlack"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
 

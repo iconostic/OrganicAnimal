@@ -6,19 +6,37 @@
     android:layout_height="match_parent"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
     tools:context="com.icono.organicanimal.SelecActivity"
+    android:background="@color/colorWhite"
     android:id="@+id/layout_drawer"
     >
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorMint"
+        android:background="@color/colorWhite"
+
         >
+        <RelativeLayout
+            android:id="@+id/progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#44cccccc"
+            android:visibility="gone"
+            >
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/colorWhite"
+            >
 
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
@@ -53,7 +71,9 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                />
         </LinearLayout>
 
 

@@ -5,25 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
-    tools:context="com.icono.organicanimal.ProgressActivity">
+    tools:context="com.icono.organicanimal.ProgressActivity"
+    >
 
     <RelativeLayout
         android:id="@+id/wheel_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#44aaaaaa"
+        android:background="#44cccccc"
         android:clickable="true"
-        android:visibility="invisible"
         >
 
-        <com.pnikosis.materialishprogress.ProgressWheel
-            android:id="@+id/progress_wheel"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            wheel:matProg_barColor="#5588ff"
+        <!--<com.pnikosis.materialishprogress.ProgressWheel-->
+            <!--android:id="@+id/progress_wheel"-->
+            <!--android:layout_width="80dp"-->
+            <!--android:layout_height="80dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--wheel:matProg_barColor="#5588ff"-->
 
+            <!--/>-->
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             />
 
     </RelativeLayout>
