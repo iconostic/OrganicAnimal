@@ -22,7 +22,10 @@
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize">
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/colorMint"
+                    >
+
 
                     <TextView
                         android:id="@+id/toolbar_txt"
@@ -30,7 +33,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="toolbal_txt"
-                        android:textColor="#ffffff"
+                        android:textColor="@color/colorWhite"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         />
@@ -48,7 +51,6 @@
                     android:id="@+id/iv"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
-
                     android:scaleType="center"
                     />
 
