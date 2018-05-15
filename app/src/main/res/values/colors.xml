@@ -3,9 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorLightMint">#da82e2ce</color>
-    <color name="colorMint">#72d5c0</color>
-    <color name="colorDarkMint">#5fb1a0</color>
+    <color name="colorLightMint">#c1735da6</color>
+    <color name="colorMint">#604c8c</color>
+    <color name="colorDarkMint">#513f78</color>
     <color name="colorKatalk">#a9c9e7</color>
     <color name="colorKatalkReverce">#e7c7a9</color>
     <color name="colorMintReverce">#d57287</color>

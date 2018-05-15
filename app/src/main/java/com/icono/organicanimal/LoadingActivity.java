@@ -42,7 +42,7 @@ public class LoadingActivity extends AppCompatActivity {
             public void run() {
                 Animation ani2 = AnimationUtils.loadAnimation(LoadingActivity.this, R.anim.loding2);
                 iv.setAnimation(ani2);
-                Glide.with(LoadingActivity.this).load(R.drawable.logo2).into(iv);
+                Glide.with(LoadingActivity.this).load(R.drawable.logo3).into(iv);
             }
         }, 3000);
 

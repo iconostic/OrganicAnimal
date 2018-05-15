@@ -87,6 +87,7 @@
         android:layout_marginTop="60dp"
         app:headerLayout="@layout/navigation_header"
         app:menu="@menu/drawer_menu"
+        app:itemIconTint="@color/colorWhite"
         android:background="@color/colorMint"
         android:layout_gravity="start"
         >

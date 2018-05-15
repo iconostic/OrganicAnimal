@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/colorLightMint"
         >
 
         <!--<android.support.v7.widget.Toolbar-->
@@ -24,7 +25,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorMint"
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
@@ -35,7 +35,7 @@
                 android:id="@+id/recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorMint"
+                android:background="@color/colorLightMint"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"

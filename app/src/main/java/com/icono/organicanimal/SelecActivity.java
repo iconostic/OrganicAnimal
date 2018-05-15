@@ -2,7 +2,11 @@ package com.icono.organicanimal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -26,6 +30,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -176,10 +182,69 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
 
 
     RelativeLayout progressbar;
+
+    public int count = 0;
+
+    public boolean isReview = true;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
+    Snackbar snackbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selec);
+
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        editor = pref.edit();
+
+        isReview = pref.getBoolean("review", true);
+        isLogin = pref.getBoolean("login", false);
+
+        Log.i("myerror", "isreview : " + isReview);
+
+        if(isReview){
+
+
+            count = pref.getInt("count", 0);
+
+            count = count+1;
+
+            editor.putInt("count", count);
+            editor.commit();
+
+
+            Log.i("myerror","count : " + count);
+            if(count%3 == 0 && count<10){
+                new MaterialDialog.Builder(this)
+                        .title(R.string.app_name)
+                        .content("리뷰는 개인개발자에게 힘이됩니다.")
+                        .positiveText("확인")
+                        .negativeText("나중에")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse("market://details?id=com.icono.organicanimal"));
+                                startActivity(intent);
+                                isReview = false;
+                                editor.putBoolean("review", isReview);
+                                editor.commit();
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            }
+                        })
+                        .show();
+            }
+        }
+
+
 
         final a_Adapter_fragment adapter = new a_Adapter_fragment(getSupportFragmentManager());
 
@@ -303,7 +368,7 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             //progressbar.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
             if (kind.equals("dog")) {
-                txt_toolbar.setText("유기동물검색기_개");
+                txt_toolbar.setText("유기동물검색기_강아지");
             } else if (kind.equals("cat")) {
                 txt_toolbar.setText("유기동물검색기_고양이");
             }
@@ -342,6 +407,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             tabs = findViewById(R.id.tabs);
             tabs.setupWithViewPager(viewPager);
 
+            tabs.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.colorWhite)));
+
             View header = navigationView.getHeaderView(0);
             txt_name = header.findViewById(R.id.txt_name);
             txt_mail = header.findViewById(R.id.txt_mail);
@@ -361,14 +428,15 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
 
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
             if(account == null){
-                isLogin = false;
+                editor.putBoolean("login", false);
+                editor.commit();
                 //updateUI(false);
                 signInButton.setVisibility(View.VISIBLE);
                 signoutButton.setVisibility(View.INVISIBLE);
 
                 signInButton.setSize(SignInButton.SIZE_STANDARD);
             }else{
-                isLogin = true;
+                editor.putBoolean("login", true);
                 //GoogleSignInAccount account1 = GoogleSignIn.getLastSignedInAccount(this);
                 displayName = account.getDisplayName().toString();
                 email = account.getEmail().toString();
@@ -396,9 +464,16 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
             });
 
+            navigationView.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorWhite)));
+            TextView textView = findViewById(R.id.footer);
+            textView.setTextColor(getResources().getColor(R.color.colorWhite));
+
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                    isLogin = pref.getBoolean("login", false);
+
                     switch ((item.getItemId())){
 //                        case R.id.sign_in_button :
 //                            signIn();
@@ -411,11 +486,12 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                             startActivity(intent1);
                             break;
                         case R.id.menu_b :
+                            Log.i("myerror","isLogin : " + isLogin + " / item : " + item.getItemId() );
                             if(isLogin){
                                 Intent intent2 = new Intent(SelecActivity.context, NoteActivity.class);
                                 startActivity(intent2);
                             }else{
-                                Snackbar.make(getWindow().getDecorView().getRootView(), "로그인이 필요한 서비스 입니다.", Snackbar.LENGTH_INDEFINITE)
+                                Snackbar.make(drawerLayout , "로그인이 필요한 서비스 입니다.", Snackbar.LENGTH_INDEFINITE)
                                         .setAction("OK", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -429,6 +505,12 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
                 }
             });
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.snackbar = null;
     }
 
     @Override
@@ -466,7 +548,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
     public void handleSignInResult(GoogleSignInResult result){
         Log.i("myerror","handleSignInResult : " + result.isSuccess());
         if(result.isSuccess()){
-            isLogin = true;
+            editor.putBoolean("login", true);
+            editor.commit();
             GoogleSignInAccount acct = result.getSignInAccount();
             displayName = acct.getDisplayName().toString();
             email = acct.getEmail().toString();
@@ -480,7 +563,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
            // updateUI(true);
         }else{
            // updateUI(false);
-            isLogin = false;
+            editor.putBoolean("login",false);
+            editor.commit();
             Log.i("myerror","fail : " + result.getStatus());
             Toast.makeText(SelecActivity.this, "fail : " + result.getStatus(), Toast.LENGTH_SHORT).show();
         }
@@ -504,7 +588,8 @@ public class SelecActivity extends AppCompatActivity implements  GoogleApiClient
             signInButton.setVisibility(View.VISIBLE);
             signoutButton.setVisibility(View.INVISIBLE);
 
-            isLogin = false;
+            editor.putBoolean("login", false);
+            editor.commit();
         }
     }
 
